@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://cxejf3ctdapvm"]
+
+[ext_resource type="Texture2D" uid="uid://b3dfr2rgqbeih" path="res://assets/breakout game arena.png" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://cxvgn5jfhfjca" path="res://scenes/ball.tscn" id="2_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://bfha1njb2uv2l" path="res://scenes/block.tscn" id="3_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://c2dxa717igktg" path="res://scenes/paddle.tscn" id="4_tefeu"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Background" type="Sprite2D" parent="."]
+texture = ExtResource("1_o5qli")
+centered = false
+
+[node name="Ball" parent="." instance=ExtResource("2_jyhfs")]
+position = Vector2(480, 360)
+slide_on_ceiling = false
+floor_stop_on_slope = false
+floor_block_on_wall = false
+
+[node name="Block" parent="." instance=ExtResource("3_tbgi4")]
+position = Vector2(480, 280)
+
+[node name="Paddle" parent="." instance=ExtResource("4_tefeu")]
+position = Vector2(480, 510)
