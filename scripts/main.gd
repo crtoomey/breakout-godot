@@ -3,11 +3,13 @@ extends Node2D
 var columns = 16
 var rows = 10
 var margin = 60
-var life = 3
+
 
 @onready var brickObject = preload("res://scenes/block.tscn")
 @onready var button: Button = $Button
 @onready var heart_ui: Sprite2D = $HeartUI
+@onready var gameOverScreen = preload("res://scenes/game_over.tscn")
+@onready var ball: CharacterBody2D = $Ball
 
 func _ready() -> void:
 	loadLevel()
@@ -48,28 +50,32 @@ func _on_button_pressed() -> void:
 
 func _on_killzone_body_entered(body: Node2D) -> void:
 	if body.name == "Ball":
-		life -= 1
-		if life == 3:
-			print(life)
+		
+		Global.life -= 1
+		if Global.life == 3:
+			print(Global.life)
 			var heartTexture = load("res://assets/breakout hearts 3 hearts.png")
 			heart_ui.texture = heartTexture
-		elif life == 2:
-			print(life)
+		elif Global.life == 2:
+			print(Global.life)
 			var heartTexture = load("res://assets/breakout hearts 2 hearts.png")
 			heart_ui.texture = heartTexture
-		elif life == 1:
-			print(life)
+		elif Global.life == 1:
+			print(Global.life)
 			var heartTexture = load("res://assets/breakout hearts 1 heart.png")
 			heart_ui.texture = heartTexture
 		else:
-			print(life)
+			print(Global.life)
 			print("Game over")
 			gameOver()
 		
 func gameOver():
 	heart_ui.queue_free()
-	await get_tree().create_timer(1.1).timeout
-	get_tree().reload_current_scene()
+	ball.queue_free()
+	#await get_tree().create_timer(.6).timeout
+	get_tree().change_scene_to_file("res://scenes/game_over.tscn")
+	
+	
 
 
 	

@@ -6,6 +6,7 @@ var direction = Vector2.DOWN
 var isActive = true
 var score = 0
 @onready var score_label: Label = $"../ScoreLabel"
+@onready var ball: CharacterBody2D = $"."
 
 func _ready() -> void:
 	#sets velocity of the ball to down and to the left or right at the start
@@ -25,8 +26,8 @@ func _physics_process(delta: float) -> void:
 			
 			if collision.get_collider().has_method("hit"):
 				collision.get_collider().hit()
-				score += 10
-				setScore(score)
+				Global.score += 10
+				setScore(Global.score)
 			
 		if(velocity.y > 0 and velocity.y < 100):
 			velocity.y = -200
@@ -62,9 +63,12 @@ func _on_killzone_body_entered(body: Node2D) -> void:
 		newRound()
 		
 func newRound():
-	await get_tree().create_timer(1).timeout
-	isActive = true
-	randomDownDirection()
+	if Global.life > 0:
+		await get_tree().create_timer(0.5).timeout
+		isActive = true
+		randomDownDirection()
+	else:
+		ball.queue_free()
 	
 func randomDownDirection():
 	var num = randi_range(1,2)
